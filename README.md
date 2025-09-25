@@ -68,7 +68,7 @@ A full-stack recipe sharing application built with React.js and Node.js, featuri
 
 1. **Clone the repository**
    ```bash
-   git clone https://github.com/your-username/foodiesco.git
+   git clone https://github.com/captnamato/foodiesco.git
    cd foodiesco
    ```
 
