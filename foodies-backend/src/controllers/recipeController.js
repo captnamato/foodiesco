@@ -25,6 +25,10 @@ const getRecipes = async (req, res, next) => {
       query['ingredients.ingredient'] = req.query.ingredient;
     }
 
+    if (req.query.author) {
+      query.author = req.query.author;
+    }
+
     // Add search functionality
     if (req.query.search) {
       const searchRegex = new RegExp(req.query.search, 'i');
