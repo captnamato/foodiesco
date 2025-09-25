@@ -89,7 +89,10 @@ const AddRecipeForm = () => {
         const resultAction = await dispatch(createRecipe(formData));
         if (createRecipe.fulfilled.match(resultAction)) {
           toast.success('Recipe created successfully!');
-          navigate(`/recipe/${resultAction.payload._id}`);
+          const createdRecipe = resultAction.payload?.data ?? resultAction.payload;
+          if (createdRecipe?._id) {
+            navigate(`/recipe/${createdRecipe._id}`);
+          }
         } else {
           toast.error(resultAction.payload || 'Failed to create recipe');
         }
