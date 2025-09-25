@@ -58,14 +58,13 @@ A full-stack recipe sharing application built with React.js and Node.js, featuri
 - **Input validation** - Data sanitization
 - **Image optimization** - File handling
 
-## 🚀 Quick Start
+## 🚀 Quick Start with Docker
 
 ### Prerequisites
-- Node.js (>=16.0.0)
-- MongoDB (local or Atlas)
-- npm or yarn
+- Docker and Docker Compose
+- Git
 
-### Installation
+### Installation (Recommended - Docker)
 
 1. **Clone the repository**
    ```bash
@@ -73,38 +72,41 @@ A full-stack recipe sharing application built with React.js and Node.js, featuri
    cd foodiesco
    ```
 
+2. **Start the entire stack**
+   ```bash
+   docker compose up -d
+   ```
+
+3. **Access the application**
+   - Frontend: http://localhost:3000
+   - Backend API: http://localhost:5000
+   - MongoDB: localhost:27017
+   - API Health Check: http://localhost:5000/api/health
+
+### Manual Setup (Alternative)
+
+If you prefer to run without Docker:
+
+1. **Prerequisites**
+   - Node.js (>=16.0.0)
+   - MongoDB (local or Atlas)
+   - npm or yarn
+
 2. **Setup Backend**
    ```bash
    cd foodies-backend
    npm install
-
-   # Create .env file
    cp .env.example .env
-   # Edit .env with your configuration
-
-   # Seed the database (optional)
-   npm run seed
-
-   # Start the server
+   # Edit .env with your MongoDB configuration
    npm start
    ```
 
 3. **Setup Frontend**
    ```bash
-   cd ../foodies-frontend
+   cd foodies-frontend
    npm install
-
-   # Create .env file if needed
-   cp .env.example .env
-
-   # Start the development server
    npm start
    ```
-
-4. **Access the application**
-   - Frontend: http://localhost:3000
-   - Backend API: http://localhost:5000
-   - API Health Check: http://localhost:5000/api/health
 
 ## 📁 Project Structure
 
@@ -131,7 +133,9 @@ foodiesco/
 │   │   ├── styles/         # CSS and styling
 │   │   └── utils/          # Utility functions
 │   └── package.json
-├── projectdocs/            # Project documentation
+├── scripts/                # Database initialization
+├── docker-compose.yml      # Docker services configuration
+├── DOCKER_GUIDE.md        # Complete Docker documentation
 └── README.md
 ```
 
@@ -179,25 +183,40 @@ REACT_APP_API_URL=http://localhost:5000/api
 - `GET /api/ingredients` - Get ingredients
 - `GET /api/testimonials` - Get testimonials
 
-## 🚀 Deployment
+## 🐳 Docker Development
 
-### Vercel (Frontend)
-1. Connect your GitHub repository to Vercel
-2. Set build command: `cd foodies-frontend && npm run build`
-3. Set output directory: `foodies-frontend/build`
-4. Add environment variables in Vercel dashboard
+This project is optimized for Docker-based development:
 
-### Railway/Heroku (Backend)
-1. Create new app on Railway/Heroku
-2. Connect GitHub repository
-3. Set build command: `cd foodies-backend && npm install`
-4. Set start command: `cd foodies-backend && npm start`
-5. Add environment variables
+### Quick Commands
+```bash
+# Start all services
+docker compose up -d
 
-### MongoDB Atlas
-1. Create MongoDB Atlas cluster
-2. Update MONGODB_URI in environment variables
-3. Whitelist deployment IP addresses
+# View logs
+docker compose logs -f
+
+# Stop all services
+docker compose down
+
+# Rebuild services
+docker compose build
+```
+
+### Features
+- ✅ Automatic MongoDB setup with sample data
+- ✅ Hot reload for both frontend and backend
+- ✅ Production-ready builds available
+- ✅ Complete development environment
+- ✅ Network isolation and security
+
+📖 **See [DOCKER_GUIDE.md](./DOCKER_GUIDE.md) for complete documentation**
+
+## 🚀 Production Deployment
+
+For production deployment, you can:
+- Use the Docker images built from the Dockerfiles
+- Deploy to any container platform (AWS ECS, Google Cloud Run, etc.)
+- Configure environment variables for your production database
 
 ## 🧪 Testing
 

@@ -124,10 +124,8 @@ docker-compose -f docker-compose.yml -f docker-compose.prod.yml up -d
 ## 🔧 Configuration
 
 ### Environment Variables
-Copy `.env.docker` to `.env` in the backend directory:
-```bash
-cp .env.docker foodies-backend/.env
-```
+The backend environment is automatically configured via docker-compose.
+To customize settings, edit the environment variables in `docker-compose.yml`.
 
 ### Database Initialization
 MongoDB is automatically initialized with:
@@ -245,11 +243,12 @@ docker network inspect foodiesco_foodiesco-network
 ## 🚀 Deployment Ready
 
 This Docker setup includes:
-- ✅ Production-ready images
-- ✅ Health checks
-- ✅ Volume persistence
-- ✅ Network isolation
-- ✅ Environment configuration
-- ✅ Hot reload for development
-- ✅ Database initialization
-- ✅ Security best practices
+- ✅ Production-ready images with multi-stage builds
+- ✅ Health checks and monitoring
+- ✅ Volume persistence for database data
+- ✅ Network isolation between services
+- ✅ Environment configuration via compose
+- ✅ Hot reload for development workflow
+- ✅ Automatic database initialization with sample data
+- ✅ Security best practices and .dockerignore files
+- ✅ Complete local development environment
