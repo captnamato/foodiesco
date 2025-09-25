@@ -1,12 +1,15 @@
-import React from 'react';
-import { Link } from 'react-router-dom';
+import React, { useState } from 'react';
+import { Link, useNavigate } from 'react-router-dom';
 import { useSelector, useDispatch } from 'react-redux';
 import { toggleFavorite } from '../../store/slices/recipesSlice';
 import Button from '../ui/Button';
+import AuthModal from '../modals/AuthModal';
 
 const RecipeDetail = ({ recipe }) => {
   const dispatch = useDispatch();
+  const navigate = useNavigate();
   const { user, isAuthenticated } = useSelector(state => state.auth);
+  const [authModalOpen, setAuthModalOpen] = useState(false);
 
   const isFavorited = recipe.favoritedBy?.includes(user?.id);
   const isOwner = user?.id === recipe.author?._id;
@@ -14,6 +17,16 @@ const RecipeDetail = ({ recipe }) => {
   const handleFavoriteClick = () => {
     if (isAuthenticated) {
       dispatch(toggleFavorite(recipe._id));
+    }
+  };
+
+  const handleUserClick = () => {
+    if (recipe.author?._id) {
+      if (isAuthenticated) {
+        navigate(`/user/${recipe.author._id}`);
+      } else {
+        setAuthModalOpen(true);
+      }
     }
   };
 
@@ -76,9 +89,10 @@ const RecipeDetail = ({ recipe }) => {
 
             {/* Author */}
             <div className="flex items-center justify-between py-4 border-t border-gray-200">
-              <Link
-                to={`/user/${recipe.author?._id}`}
-                className="flex items-center hover:text-foodies-orange transition-colors"
+              <div
+                className="flex items-center hover:text-foodies-orange transition-colors cursor-pointer"
+                onClick={handleUserClick}
+                title={isAuthenticated ? `View ${recipe.author?.name}'s profile` : 'Sign in to view profile'}
               >
                 {recipe.author?.avatar ? (
                   <img
@@ -97,7 +111,7 @@ const RecipeDetail = ({ recipe }) => {
                   <p className="font-medium text-gray-900">{recipe.author?.name}</p>
                   <p className="text-sm text-gray-500">{recipe.author?.email}</p>
                 </div>
-              </Link>
+              </div>
 
               {/* Action Buttons */}
               <div className="flex gap-2">
@@ -162,6 +176,12 @@ const RecipeDetail = ({ recipe }) => {
           </div>
         </div>
       </div>
+      
+      {/* Auth Modal */}
+      <AuthModal
+        isOpen={authModalOpen}
+        onClose={() => setAuthModalOpen(false)}
+      />
     </div>
   );
 };

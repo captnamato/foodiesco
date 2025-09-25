@@ -1,6 +1,6 @@
 import React, { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { useSearchParams } from 'react-router-dom';
+import { useSearchParams, useNavigate } from 'react-router-dom';
 import { fetchRecipes } from '../store/slices/recipesSlice';
 import { fetchCategories } from '../store/slices/categoriesSlice';
 import RecipeCard from '../components/cards/RecipeCard';
@@ -11,12 +11,21 @@ import TestimonialsSection from '../components/testimonials/TestimonialsSection'
 
 const HomePage = () => {
   const dispatch = useDispatch();
-  const [searchParams] = useSearchParams();
+  const [searchParams, setSearchParams] = useSearchParams();
+  const navigate = useNavigate();
   const { recipes, loading, error } = useSelector(state => state.recipes);
   const { categories } = useSelector(state => state.categories);
 
   const selectedCategoryId = searchParams.get('category') || '';
   const selectedCategoryName = categories?.find(cat => cat._id === selectedCategoryId)?.name || '';
+
+  const handleCategoryChange = (categoryId) => {
+    if (categoryId) {
+      setSearchParams({ category: categoryId });
+    } else {
+      setSearchParams({});
+    }
+  };
 
   useEffect(() => {
     dispatch(fetchCategories());
@@ -39,7 +48,13 @@ const HomePage = () => {
       <div className="container mx-auto px-4 py-8">
         <section className="mb-12">
           <h2 className="text-3xl font-bold text-gray-900 mb-6">Browse Recipes</h2>
-          {categories && categories.length > 0 && <CategoryFilter categories={categories} />}
+          {categories && categories.length > 0 && (
+            <CategoryFilter 
+              categories={categories} 
+              selectedCategory={selectedCategoryId}
+              onCategoryChange={handleCategoryChange}
+            />
+          )}
         </section>
 
         <section>

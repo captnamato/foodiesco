@@ -1,12 +1,15 @@
-import React from 'react';
-import { Link } from 'react-router-dom';
+import React, { useState } from 'react';
+import { Link, useNavigate } from 'react-router-dom';
 import { useSelector, useDispatch } from 'react-redux';
 import { toggleFavorite } from '../../store/slices/recipesSlice';
 import { cn } from '../../utils/cn';
+import AuthModal from '../modals/AuthModal';
 
 const RecipeCard = ({ recipe, className }) => {
   const dispatch = useDispatch();
+  const navigate = useNavigate();
   const { user, isAuthenticated } = useSelector(state => state.auth);
+  const [authModalOpen, setAuthModalOpen] = useState(false);
 
   const isFavorited = recipe.favoritedBy?.includes(user?.id);
 
@@ -14,6 +17,18 @@ const RecipeCard = ({ recipe, className }) => {
     e.preventDefault();
     if (isAuthenticated) {
       dispatch(toggleFavorite(recipe._id));
+    }
+  };
+
+  const handleUserClick = (e) => {
+    e.preventDefault();
+    e.stopPropagation();
+    if (recipe.author?._id) {
+      if (isAuthenticated) {
+        navigate(`/user/${recipe.author._id}`);
+      } else {
+        setAuthModalOpen(true);
+      }
     }
   };
 
@@ -87,7 +102,11 @@ const RecipeCard = ({ recipe, className }) => {
 
           <div className="flex items-center justify-between">
             {/* Author */}
-            <div className="flex items-center">
+            <div 
+              className="flex items-center cursor-pointer hover:text-foodies-orange transition-colors"
+              onClick={handleUserClick}
+              title={isAuthenticated ? `View ${recipe.author?.name}'s profile` : 'Sign in to view profile'}
+            >
               {recipe.author?.avatar ? (
                 <img
                   src={recipe.author.avatar}
@@ -113,6 +132,12 @@ const RecipeCard = ({ recipe, className }) => {
           </div>
         </div>
       </Link>
+      
+      {/* Auth Modal */}
+      <AuthModal
+        isOpen={authModalOpen}
+        onClose={() => setAuthModalOpen(false)}
+      />
     </div>
   );
 };
