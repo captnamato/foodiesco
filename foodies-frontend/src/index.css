@@ -1,0 +1,71 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  :root {
+    /* Brand - Foodies Orange */
+    --primary: 22 100% 54%;   /* #FF6B2C */
+    --primary-foreground: 0 0% 100%;
+
+    /* Accents */
+    --success: 142 72% 35%;   /* #22C55E */
+    --warning: 38 92% 50%;    /* #F59E0B */
+    --danger: 0 84% 60%;      /* #EF4444 */
+    --info: 199 89% 48%;      /* #0EA5E9 */
+
+    /* Neutrals */
+    --background: 0 0% 100%;
+    --foreground: 222 47% 11%;
+    --muted: 215 16% 92%;
+    --muted-foreground: 215 15% 35%;
+
+    /* Surfaces */
+    --card: 0 0% 100%;
+    --card-foreground: var(--foreground);
+    --popover: 0 0% 100%;
+    --popover-foreground: var(--foreground);
+
+    /* Outlines & dividers */
+    --border: 215 16% 86%;
+    --input: 214 15% 85%;
+    --ring: var(--primary);
+
+    /* Overlays */
+    --overlay: 0 0% 0% / 0.5;
+
+    /* Destructive */
+    --destructive: var(--danger);
+    --destructive-foreground: 0 0% 100%;
+  }
+
+  .dark {
+    --background: 222 47% 7%;
+    --foreground: 0 0% 98%;
+    --muted: 223 14% 14%;
+    --muted-foreground: 215 20% 70%;
+    --card: 223 14% 12%;
+    --card-foreground: var(--foreground);
+    --popover: 223 14% 12%;
+    --popover-foreground: var(--foreground);
+    --border: 223 13% 20%;
+    --input: 223 13% 20%;
+    --ring: 22 100% 60%;
+    --overlay: 0 0% 0% / 0.6;
+  }
+
+  * {
+    @apply border-border;
+  }
+
+  body {
+    @apply bg-background text-foreground font-sans;
+    font-feature-settings: "rlig" 1, "calt" 1;
+  }
+}
+
+@layer utilities {
+  .text-balance {
+    text-wrap: balance;
+  }
+}
