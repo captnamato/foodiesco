@@ -46,7 +46,7 @@ export const createRecipe = createAsyncThunk(
           'Content-Type': 'multipart/form-data',
         },
       });
-      return response.data;
+      return response.data.data;
     } catch (error) {
       return rejectWithValue(error.response?.data?.error || error.message);
     }
@@ -175,7 +175,9 @@ const recipesSlice = createSlice({
       })
       .addCase(createRecipe.fulfilled, (state, action) => {
         state.loading = false;
-        state.recipes.unshift(action.payload.data);
+        if (action.payload) {
+          state.recipes.unshift(action.payload);
+        }
       })
       .addCase(createRecipe.rejected, (state, action) => {
         state.loading = false;
