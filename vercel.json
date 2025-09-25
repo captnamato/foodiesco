@@ -1,25 +1,14 @@
 {
   "version": 2,
   "name": "foodiesco",
-  "builds": [
-    {
-      "src": "foodies-frontend/build/**",
-      "use": "@vercel/static"
-    }
-  ],
-  "routes": [
-    {
-      "src": "/(.*)",
-      "dest": "/foodies-frontend/build/index.html"
-    }
-  ],
-  "functions": {
-    "foodies-frontend/build/index.html": {
-      "includeFiles": "foodies-frontend/build/**"
-    }
-  },
   "buildCommand": "cd foodies-frontend && npm run build",
   "outputDirectory": "foodies-frontend/build",
   "installCommand": "cd foodies-frontend && npm install",
-  "framework": "create-react-app"
+  "framework": "create-react-app",
+  "rewrites": [
+    {
+      "source": "/(.*)",
+      "destination": "/index.html"
+    }
+  ]
 }
