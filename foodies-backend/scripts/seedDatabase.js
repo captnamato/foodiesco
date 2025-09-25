@@ -15,7 +15,7 @@ const Testimonial = require('../src/models/Testimonial');
 // JSON Data Loading Utilities
 const loadJSONData = (filename) => {
   try {
-    const filePath = path.join(__dirname, '../../projectdocs/foodiesjson', filename);
+    const filePath = path.join(__dirname, '../foodiesjson', filename);
     const rawData = fs.readFileSync(filePath, 'utf8');
     return JSON.parse(rawData);
   } catch (error) {
